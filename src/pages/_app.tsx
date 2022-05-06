@@ -6,6 +6,9 @@ function MyApp({ Component, pageProps }: AppProps) {
   useEffect(() => {
     console.log("has to run this first on the browser");
   }, []);
+  if (typeof window === "undefined") {
+    return null;
+  }
   return <Component {...pageProps} />;
 }
 
