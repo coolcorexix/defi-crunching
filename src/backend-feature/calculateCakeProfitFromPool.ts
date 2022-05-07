@@ -8,29 +8,55 @@ import {
   YieldFarmingContractInfo,
 } from "./profit-track/types";
 import { cakeTokenContractAddress } from "./config/contractAddress";
-import { autoCakePool } from "./config/poolInfo";
+import { autoCakePool, ifoCakePool, manualCakePool } from "./config/poolInfo";
 import { provider } from "./context";
 import { BscScanApiTransaction } from "./types";
 import { decodeTransactionInputData } from "./utils/decodeInputData";
 import { getAmountOfTokenTransferFromLogs } from "./profit-track/getAmountOfTokenTransferFromLogs";
 import { calculateTotalCost } from "./profit-track/calculateTotalCost";
 import { calculateTotalProceed } from "./profit-track/calculateTotalProceed";
+import { getTransactionList } from "./getTransactionList";
+import {
+  AutoCakePool,
+  CakeSyrupPool,
+  ManualCakeSyrupPool,
+} from "constants/abi/types";
 
 async function getCurrentCakeStakedInCurrentPool(
   inspectingAddress: string,
   currentPool: YieldFarmingContractInfo
 ): Promise<number> {
-  if (currentPool.name === "autoCakePool") {
-    const autoCakePoolContract = getContract(
-      autoCakePool.address,
-      require("constants/abi/AutoCakePool.json"),
-      provider
-    );
-    const pricePerFullShare = await autoCakePoolContract.getPricePerFullShare();
-    const userShares = await autoCakePoolContract.userInfo(inspectingAddress);
-    return (userShares.shares * pricePerFullShare) / Math.pow(10, DECIMALS * 2);
+  switch (currentPool.name) {
+    case "manualCakePool": {
+      const manualCakePoolContract = getContract(
+        manualCakePool.address,
+        manualCakePool.abi,
+        provider
+      ) as ManualCakeSyrupPool;
+      // ref: https://github-coolcorexix/coolcorexix/pancakeswap-cli/blob/main/defi-journaling.md#L177
+      const userInfo = await manualCakePoolContract.userInfo(
+        0,
+        inspectingAddress
+      );
+      return Number(userInfo.amount.toString());
+    }
+    case "ifoCakePool":
+    case "autoCakePool": {
+      const autoCakePoolContract = getContract(
+        ifoCakePool.address,
+        ifoCakePool.abi,
+        provider
+      ) as CakeSyrupPool;
+      const pricePerFullShare =
+        await autoCakePoolContract.getPricePerFullShare();
+      const userShares = await autoCakePoolContract.userInfo(inspectingAddress);
+      return (
+        (Number(userShares.shares.toString()) *
+          Number(pricePerFullShare.toString())) /
+        Math.pow(10, DECIMALS * 2)
+      );
+    }
   }
-
   return undefined;
 }
 
@@ -49,33 +75,17 @@ export interface CakeProfitStats {
 
 export async function calculateCakeProfitFromPool(
   rawAddress: string,
+  transactionList: BscScanApiTransaction[],
   currentPool: YieldFarmingContractInfo
 ): Promise<CakeProfitStats> {
-  const bscScanUrl = "https://api.bscscan.com/api";
   const address = rawAddress.toLowerCase();
   const beingStakedCakes = await getCurrentCakeStakedInCurrentPool(
     address,
     currentPool
   );
 
-  const response = await axios.get(bscScanUrl, {
-    params: {
-      module: "account",
-      action: "txlist",
-      address,
-      startblock: "0",
-      endblock: "99999999",
-      page: "1",
-      offset: "1000",
-      sort: "asc",
-      apikey: process.env.BSCSCAN_API_KEY,
-    },
-  });
-  if (!response.status || !Number(response.data.status)) {
-    throw new Error(response.data.message);
-  }
   const poolInteractingContractTransactions = (
-    response.data.result as BscScanApiTransaction[]
+    transactionList as BscScanApiTransaction[]
   ).filter((transaction) => {
     return (
       transaction.to.toLocaleLowerCase() ===
@@ -116,9 +126,24 @@ export async function calculateCakeProfitFromPool(
       })
     )
   ).filter((o) => !!o);
-  console.table(outputResponses, Object.keys(outputResponses[0]));
   const totalCost = calculateTotalCost(outputResponses);
+  console.log(
+    "🚀 ~ file: calculateCakeProfitFromPool.ts ~ line 106 ~ totalCost",
+    totalCost
+  );
   const totalProceed = calculateTotalProceed(outputResponses);
+  console.log(
+    "🚀 ~ file: calculateCakeProfitFromPool.ts ~ line 108 ~ totalProceed",
+    totalProceed
+  );
+  console.log(
+    "🚀 ~ file: calculateCakeProfitFromPool.ts ~ line 112 ~ currentPrice",
+    currentPrice
+  );
+  console.log(
+    "🚀 ~ file: calculateCakeProfitFromPool.ts ~ line 113 ~ beingStakedCakes",
+    beingStakedCakes
+  );
   console.log(
     `${currentPool.name} USD gain / loss: `,
     beingStakedCakes * currentPrice + totalProceed.usdCost - totalCost.usdCost
