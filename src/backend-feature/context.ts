@@ -13,6 +13,11 @@ let chainId: any = null;
 export function setChainId(chainIdValue: ChainId) {
   chainId = chainIdValue;
 }
+export function setChainIdIfNot(chainIdValue: ChainId) {
+  if (!chainId) {
+    chainId = chainIdValue;
+  }
+}
 
 export function getChainId() {
   if (!chainId) {
@@ -26,6 +31,11 @@ export let provider: JsonRpcProvider = null;
 
 export const initProvider = () => {
   provider = initRpcProvider();
+};
+export const initProviderIfNot = () => {
+  if (!provider) {
+    provider = initRpcProvider();
+  }
 };
 
 export const gasPrice = GAS_PRICE_GWEI.testnet;

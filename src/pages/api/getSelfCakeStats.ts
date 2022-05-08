@@ -5,7 +5,7 @@ import {
   ifoCakePool,
   manualCakePool,
 } from "backend-feature/config/poolInfo";
-import { initProvider, setChainId } from "backend-feature/context";
+import { initProviderIfNot, setChainIdIfNot } from "backend-feature/context";
 import { getTransactionList } from "backend-feature/getTransactionList";
 import { InterestedCurrencies } from "backend-feature/types";
 import { NextApiRequest, NextApiResponse } from "next";
@@ -20,15 +20,15 @@ export default async function getSelfCakeStats(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  setChainId(ChainId.MAINNET);
-  initProvider();
+  setChainIdIfNot(ChainId.MAINNET);
+  initProviderIfNot();
   const queryParams = url.parse(req.url ?? "", true).query;
   if (!queryParams || !queryParams.address) {
     res.status(400).send("Missing address query parameter");
     return;
   }
   const toInspectAddress = queryParams.address as string;
-  const transactionList = require("./mockTransactionList.json");
+  const transactionList = await getTransactionList(toInspectAddress);
   const stats = await Promise.all(
     [autoCakePool, ifoCakePool, manualCakePool].map((pool) =>
       calculateCakeProfitFromPool.call(
