@@ -1,20 +1,18 @@
+import { InterestedCurrencies } from "backend-feature/types";
 import { outflowMethods } from "./constants";
 import { OutputResponse } from "./types";
 
-export function calculateTotalProceed(outputResponses: OutputResponse[]): {
-  usdCost: number;
-  cakeCost: number;
-} {
+export function calculateTotalProceed(outputResponses: OutputResponse[]): InterestedCurrencies {
   return outputResponses
     .filter((response) => outflowMethods.includes(response.method))
     .reduce(
       (acc, curr) => ({
-        usdCost: acc.usdCost + curr.toUSDValue,
-        cakeCost: acc.cakeCost + curr.amountOfToken,
+        usd: acc.usd + curr.toUSDValue,
+        cake: acc.cake + curr.amountOfToken,
       }),
       {
-        usdCost: 0,
-        cakeCost: 0,
+        usd: 0,
+        cake: 0,
       }
     );
 }

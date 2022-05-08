@@ -63,3 +63,5 @@ query getNftsMarketData {
   }
 }
 ```
+
+- The API to get coin price from coingecko seem slow down the app much, we kinda need to host it ourselves. Or we can think on applying cache ASAP

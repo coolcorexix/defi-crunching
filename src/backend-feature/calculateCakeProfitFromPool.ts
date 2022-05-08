@@ -68,16 +68,25 @@ async function getCakePriceAtTheTime(unixEpochtimeStamp: number) {
   });
 }
 
-export interface CakeProfitStats {
+export interface CakePoolStats {
+  poolName: string;
   gainOrLossInUsd: number;
   outputResponses: OutputResponse[];
+  totalCost: {
+    usd: number;
+    cake: number;
+  };
+  totalProceed: {
+    usd: number;
+    cake: number;
+  };
 }
 
 export async function calculateCakeProfitFromPool(
   rawAddress: string,
   transactionList: BscScanApiTransaction[],
   currentPool: YieldFarmingContractInfo
-): Promise<CakeProfitStats> {
+): Promise<CakePoolStats> {
   const address = rawAddress.toLowerCase();
   const beingStakedCakes = await getCurrentCakeStakedInCurrentPool(
     address,
@@ -146,28 +155,31 @@ export async function calculateCakeProfitFromPool(
   );
   console.log(
     `${currentPool.name} USD gain / loss: `,
-    beingStakedCakes * currentPrice + totalProceed.usdCost - totalCost.usdCost
+    beingStakedCakes * currentPrice + totalProceed.usd - totalCost.usd
   );
   console.log(
     `${currentPool.name} deposited CAKE: `,
-    totalCost.cakeCost - totalProceed.cakeCost
+    totalCost.cake - totalProceed.cake
   );
   console.log(
     `earned cakes from staking: ${
-      beingStakedCakes + totalProceed.cakeCost - totalCost.cakeCost
+      beingStakedCakes + totalProceed.cake - totalCost.cake
     }`
   );
   console.log(
     `DCA cake price (including rewards): ${
-      (totalCost.usdCost - totalProceed.usdCost) / beingStakedCakes
+      totalCost.usd / (totalCost.cake + beingStakedCakes)
     }`
   );
 
   return {
+    poolName: currentPool.name,
     outputResponses,
+    totalCost,
+    totalProceed,
     gainOrLossInUsd:
       beingStakedCakes * currentPrice +
-      totalProceed.usdCost -
-      totalCost.usdCost,
+      totalProceed.usd -
+      totalCost.usd,
   };
 }

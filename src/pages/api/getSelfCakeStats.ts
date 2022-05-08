@@ -7,14 +7,19 @@ import {
 } from "backend-feature/config/poolInfo";
 import { initProvider, setChainId } from "backend-feature/context";
 import { getTransactionList } from "backend-feature/getTransactionList";
+import { InterestedCurrencies } from "backend-feature/types";
 import { NextApiRequest, NextApiResponse } from "next";
 import url from "url";
+
+export interface CakeStatResponse {
+  totalProceed: InterestedCurrencies;
+  totalCost: InterestedCurrencies;
+}
 
 export default async function getSelfCakeStats(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  console.log("receive request");
   setChainId(ChainId.MAINNET);
   initProvider();
   const queryParams = url.parse(req.url ?? "", true).query;
@@ -25,11 +30,7 @@ export default async function getSelfCakeStats(
   const toInspectAddress = queryParams.address as string;
   const transactionList = require("./mockTransactionList.json");
   const stats = await Promise.all(
-    [
-      autoCakePool,
-      ifoCakePool,
-      manualCakePool
-    ].map((pool) =>
+    [autoCakePool, ifoCakePool, manualCakePool].map((pool) =>
       calculateCakeProfitFromPool.call(
         null,
         toInspectAddress,
@@ -37,6 +38,13 @@ export default async function getSelfCakeStats(
         pool
       )
     )
+  );
+  const usdGainLoss = stats.reduce((acc, el) => {
+    return acc + el.totalProceed.usd - el.totalCost.usd;
+  }, 0);
+  console.log(
+    "🚀 ~ file: getSelfCakeStats.ts ~ line 45 ~ usdGainLoss ~ usdGainLoss",
+    usdGainLoss
   );
   res.status(200).json(stats);
 }

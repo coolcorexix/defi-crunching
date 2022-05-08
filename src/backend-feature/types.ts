@@ -47,4 +47,9 @@ export interface ScanServiceApiTransaction {
   confirmations: string;
 }
 
+export interface InterestedCurrencies {
+  usd: number,
+  cake: number,
+}
+
 export interface BscScanApiTransaction extends ScanServiceApiTransaction {}

@@ -1,4 +1,4 @@
-import { CakeProfitStats } from "backend-feature/calculateCakeProfitFromPool";
+import { CakePoolStats } from "backend-feature/calculateCakeProfitFromPool";
 import { fetcher } from "backend-feature/utils/fetcher";
 
 import type { NextPage } from "next";
@@ -7,12 +7,11 @@ import useSWR from "swr";
 import styles from "../styles/Home.module.css";
 import { generateGetMethodWithQueries } from "backend-feature/utils/generateGetMethodWithQueries";
 import { useEffect, useMemo, useState } from "react";
-import { getScaledValue } from "backend-feature/utils/getScaledValue";
 import { useTransformOutputResponse } from "hooks/useTransformOutputResponse";
 import { DashedLine, Row, Table } from "nemo-ui-kit";
 
 const Home: NextPage = () => {
-  const { data, error } = useSWR<CakeProfitStats, any>(
+  const { data, error } = useSWR<CakePoolStats, any>(
     generateGetMethodWithQueries("/api/getSelfCakeStats", {
       address: "0x4460D957A0Ec58a062C899623e743ba3451ED44C",
     }),
@@ -46,7 +45,7 @@ const Home: NextPage = () => {
       <div>
         <Table className="w-2/3 m-auto">
           <DashedLine />
-          <Row  isHeading>
+          <Row isHeading>
             {Object.keys(displayOutputResponses[0].displayData).map((key) => {
               return (
                 <span key={key} className="font-bold">
