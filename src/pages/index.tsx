@@ -11,9 +11,12 @@ import { SearchBar } from "components/SearchBar";
 import { useState } from "react";
 import axios from "axios";
 import { Dropdown } from "components/Dropdown";
+import { DexDropdown, dexOptions } from "components/DexDropdown";
+import { Option } from "react-dropdown";
 
 const Home: NextPage = () => {
-  const [searchValue, setSearchValue] = useState("");
+  const [dexOption, setDexOption] = useState<Option>(dexOptions[0]);
+  const [addressToSearchValue, setAddressToSearchValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [cakeStatResponse, setCakeStatResponse] =
     useState<CakeStatResponse>(null);
@@ -35,7 +38,7 @@ const Home: NextPage = () => {
             setIsLoading(true);
             const response = await axios.get(
               generateGetMethodWithQueries("/api/getSelfCakeStats", {
-                address: searchValue,
+                address: addressToSearchValue,
               })
             );
             if (response.status === 200) {
@@ -45,10 +48,10 @@ const Home: NextPage = () => {
           }}
         >
           <div className="flex flex-row m-auto">
-            <Dropdown className="w-48" />
+            <DexDropdown className="w-64" onDexSelectChange={setDexOption}  />
             <div className="w-96">
               <SearchBar
-                onChange={setSearchValue}
+                onChange={setAddressToSearchValue}
                 placeholder="An address to start with..."
               />
             </div>
