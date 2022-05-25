@@ -1,13 +1,26 @@
-import { DashedLine, Row, Table } from "nemo-ui-kit";
+import { OutputResponse } from "backend-feature/profit-track/types";
+import { useTransformOutputResponse } from "hooks/useTransformOutputResponse";
+import { DashedLine, Row, Table } from "@coolcorexix/ui-kit";
+
 import React from "react";
-import { DisplayOutputResponse } from "types/DisplayOutputResponse";
+import { YandexIcon } from "@coolcorexix/icons";
 
 export function EarningTable(props: {
-  displayOutputResponses: DisplayOutputResponse[];
+  outputResponses: OutputResponse[];
 }) {
-  const { displayOutputResponses } = props;
+  const { outputResponses } = props;
+  console.log("🚀 ~ file: index.tsx ~ line 11 ~ outputResponses", outputResponses)
+  const displayOutputResponses = useTransformOutputResponse(
+    outputResponses
+  );
+  if (!displayOutputResponses.length) {
+    return null;
+  }
   return (
     <div>
+      <div className="mb-2">
+        <YandexIcon />
+      </div>
       <Table className="w-2/3 m-auto">
         <DashedLine />
         <Row isHeading>

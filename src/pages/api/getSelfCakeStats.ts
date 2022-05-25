@@ -1,5 +1,8 @@
 import { ChainId } from "@pancakeswap/sdk";
-import { calculateCakeProfitFromPool } from "backend-feature/calculateCakeProfitFromPool";
+import {
+  CakePoolStats,
+  calculateCakeProfitFromPool,
+} from "backend-feature/calculateCakeProfitFromPool";
 import {
   autoCakePool,
   ifoCakePool,
@@ -12,13 +15,15 @@ import { NextApiRequest, NextApiResponse } from "next";
 import url from "url";
 
 export interface CakeStatResponse {
-  totalProceed: InterestedCurrencies;
-  totalCost: InterestedCurrencies;
+  // totalProceed: InterestedCurrencies;
+  // totalCost: InterestedCurrencies;
+  usdGainLoss: number;
+  earningTableData: CakePoolStats[];
 }
 
 export default async function getSelfCakeStats(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse<CakeStatResponse | string>
 ) {
   setChainIdIfNot(ChainId.MAINNET);
   initProviderIfNot();
@@ -46,5 +51,8 @@ export default async function getSelfCakeStats(
     "🚀 ~ file: getSelfCakeStats.ts ~ line 45 ~ usdGainLoss ~ usdGainLoss",
     usdGainLoss
   );
-  res.status(200).json(stats);
+  res.status(200).json({
+    usdGainLoss,
+    earningTableData: stats,
+  });
 }
