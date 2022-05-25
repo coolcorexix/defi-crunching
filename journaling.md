@@ -65,3 +65,20 @@ query getNftsMarketData {
 ```
 
 - The API to get coin price from coingecko seem slow down the app much, we kinda need to host it ourselves. Or we can think on applying cache ASAP
+```
+Applied cached, significant speed improvement
+```
+- Attach ntc search bar to app
+```
+LFG!
+```
+
+- Implement dropdown with style like search bar
+```
+https://stackoverflow.com/a/71843120/9814737
+resolution in package json really help with the new type error of react 18
+```
+
+- Be careful when you trying to add border to children to act like its parent's border, it create hideous UI -> dont' waste time doing it
+
+- Use built-in Image component for auto image optimization and some other better performance https://nextjs.org/docs/messages/no-img-element
