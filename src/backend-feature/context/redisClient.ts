@@ -1,6 +1,5 @@
 import * as redis from "redis";
 
-// const redisPort = 6379;
 const redisClient = redis.createClient();
 
 export async function getRedisClient() {

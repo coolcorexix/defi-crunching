@@ -77,8 +77,22 @@ LFG!
 ```
 https://stackoverflow.com/a/71843120/9814737
 resolution in package json really help with the new type error of react 18
+
+it is done, like nicely done haha
 ```
 
 - Be careful when you trying to add border to children to act like its parent's border, it create hideous UI -> dont' waste time doing it
 
 - Use built-in Image component for auto image optimization and some other better performance https://nextjs.org/docs/messages/no-img-element
+
+- TODO: Show overall stats nesting details like table, make it 3 levels
+
+- TODO: deploy to a vercel site 
+
+
+- TODO: set up digital ocean, wiring them 2 both local and prod
+  - add mongodb
+  - add redis cache
+```
+- To fix "...from agent: agent refused operation" , run: `$ chmod 600 /home/<username>/.ssh/id_rsa` -> connected to digital ocean
+```
