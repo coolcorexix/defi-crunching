@@ -1,19 +1,9 @@
-import mongoose, { ConnectionStates, Schema } from "mongoose";
-
-makeSureMongoDbIsConnected();
-
-async function connectMongoose() {
-  const dbName = 'defi-crunching';
-  try {
-    await mongoose.connect(
-      `mongodb://${process.env.MONGODB_IPADDRESS}:${process.env.MONGODB_PORT}/${dbName}`
-    );
-  } catch (e) {
-    throw new Error(e.toString());
-  }
-}
-
-let isMongoDbConnected = false;
+import mongoose, {
+  Connection,
+  ConnectionStates,
+  Model,
+  Schema,
+} from "mongoose";
 
 export interface CoinGeckoAtTheTime {
   namedId?: string;
@@ -23,24 +13,56 @@ export interface CoinGeckoAtTheTime {
   priceInUsd: number;
 }
 
-const CoinGeckoPriceAtTheTimeSchema = new Schema({
-  namedId: { type: String, index: true },
-  platformId: { type: String },
-  tokenContractAddress: { type: String },
-  unixEpochtimeStamp: { type: Number },
-  priceInUsd: { type: Number },
-});
+let connection: Connection;
+let coinGeckoPriceAtTheTimeModel: Model<CoinGeckoAtTheTime>;
 
-export const CoinGeckoPriceAtTheTimeModel = mongoose.model<CoinGeckoAtTheTime>(
-  "coinGeckoPrioceAtTheTime",
-  CoinGeckoPriceAtTheTimeSchema
-);
+// Next.js don't have a index entry file to do this so here we are. Doing ad-hoc
+makeSureMongoDbIsConnected();
+
+function initMongoDbInstances(dbName: string) {
+  if (!connection) {
+    connection = mongoose.createConnection(
+      `mongodb://${process.env.MONGODB_USERNAME_2}:${process.env.MONGODB_PASS_2}@${process.env.MONGODB_IPADDRESS}:${process.env.MONGODB_PORT}`,
+      {
+        dbName,
+      }
+    );
+  }
+  if (!coinGeckoPriceAtTheTimeModel) {
+    const CoinGeckoPriceAtTheTimeSchema = new Schema({
+      namedId: { type: String, index: true },
+      platformId: { type: String },
+      tokenContractAddress: { type: String },
+      unixEpochtimeStamp: { type: Number },
+      priceInUsd: { type: Number },
+    });
+    coinGeckoPriceAtTheTimeModel = connection.model<CoinGeckoAtTheTime>(
+      "coinGeckoPriceAtTheTime",
+      CoinGeckoPriceAtTheTimeSchema
+    );
+  }
+}
+
+// This will also start fresh once flushing data
+
+async function connectMongoose(dbName: string) {
+  try {
+    await mongoose.connect(
+      `mongodb://${process.env.MONGODB_USERNAME_2}:${process.env.MONGODB_PASS_2}@${process.env.MONGODB_IPADDRESS}:${process.env.MONGODB_PORT}`,
+      {
+        dbName,
+      }
+    );
+  } catch (e) {
+    throw new Error(e.toString());
+  }
+}
 
 export const saveCoingeckoPrice = async (
   newCoingeckPrice: CoinGeckoAtTheTime
 ) => {
   await makeSureMongoDbIsConnected();
-  await CoinGeckoPriceAtTheTimeModel.create({
+  await getCoinGeckoPriceAtTheTimeModel().create({
     ...newCoingeckPrice,
     namedId: `${newCoingeckPrice.platformId}-${newCoingeckPrice.tokenContractAddress}-${newCoingeckPrice.unixEpochtimeStamp}`,
   });
@@ -48,13 +70,20 @@ export const saveCoingeckoPrice = async (
 
 export const findCoingeckoByNamedId = async (namedId: string) => {
   await makeSureMongoDbIsConnected();
-  return CoinGeckoPriceAtTheTimeModel.findOne({
+
+  return getCoinGeckoPriceAtTheTimeModel().findOne({
     namedId,
   });
 };
 
+function getCoinGeckoPriceAtTheTimeModel() {
+  return coinGeckoPriceAtTheTimeModel;
+}
+
 async function makeSureMongoDbIsConnected() {
+  const dbName = "defi-crunching";
   if (mongoose.connection.readyState === ConnectionStates.disconnected) {
-    await connectMongoose();
+    await connectMongoose(dbName);
   }
+  initMongoDbInstances(dbName);
 }

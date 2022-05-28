@@ -1,5 +1,4 @@
 import { findCoingeckoByNamedId, saveCoingeckoPrice } from "backend-feature/context/mongoDbClient";
-import { getRedisClient } from "backend-feature/context/redisClient";
 import { CoinGeckoClient } from "coingecko-api-v3";
 import { performance } from "perf_hooks";
 

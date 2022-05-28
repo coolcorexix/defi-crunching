@@ -1,10 +1,12 @@
 import * as redis from "redis";
 
-const redisClient = redis.createClient();
-
 export async function getRedisClient() {
-    if (!redisClient.isOpen) {
-        await redisClient.connect();
-    }
-    return redisClient;
+  const redisClient = redis.createClient({
+    url: `redis://${process.env.REDIS_IPADDRESS}:${process.env.REDIS_PORT}`,
+    password: process.env.REDIS_PASS,
+  });
+  if (!redisClient.isOpen) {
+    await redisClient.connect();
+  }
+  return redisClient;
 }

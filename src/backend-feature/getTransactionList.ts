@@ -26,7 +26,7 @@ export async function getTransactionList(
     if (!response.status || !Number(response.data.status)) {
       throw new Error(response.data.message);
     }
-    redisClient.setEx(redisKey, 3000, JSON.stringify(response.data.result));
+    redisClient.setEx(redisKey, 300, JSON.stringify(response.data.result));
     return response.data.result;
   }
   console.log('trans hit cache!');
