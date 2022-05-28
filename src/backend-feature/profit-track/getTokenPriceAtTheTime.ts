@@ -1,4 +1,7 @@
-import { findCoingeckoByNamedId, saveCoingeckoPrice } from "backend-feature/context/mongoDbClient";
+import {
+  findCoingeckoByNamedId,
+  saveCoingeckoPrice,
+} from "backend-feature/context/mongoDbClient";
 import { CoinGeckoClient } from "coingecko-api-v3";
 import { performance } from "perf_hooks";
 
@@ -31,13 +34,16 @@ export async function getTokenPriceAtTheTime(args: {
           priceInUsd: response.prices[0][1],
         });
         const endTime = performance.now();
-        console.log(`Call took ${endTime - startTime} milliseconds`);
+        console.log(
+          `Call took ${endTime - startTime} milliseconds without cache `,
+          args.unixEpochtimeStamp
+        );
         return response.prices[0][1];
       }
       throw new Error("no data price found");
     }
     const endTime = performance.now();
-    console.log(`Call took ${endTime - startTime} milliseconds`);
+    console.log(`Call took ${endTime - startTime} milliseconds `);
     return mongodbStoredCoinPrice.priceInUsd;
   } catch (e) {
     console.log("error in get token price: ", e);

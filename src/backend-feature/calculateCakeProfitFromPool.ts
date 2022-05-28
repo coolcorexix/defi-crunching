@@ -102,7 +102,9 @@ export async function calculateCakeProfitFromPool(
     );
   });
   const interestedMethodNames = currentPool.stakingMethods;
-  const currentPrice = await getCakePriceAtTheTime(Date.now() / 1000);
+  const currentPrice = await getCakePriceAtTheTime(
+    Math.floor(Date.now() / 1000)
+  );
 
   const outputResponses: OutputResponse[] = (
     await Promise.all(
@@ -178,8 +180,6 @@ export async function calculateCakeProfitFromPool(
     totalCost,
     totalProceed,
     gainOrLossInUsd:
-      beingStakedCakes * currentPrice +
-      totalProceed.usd -
-      totalCost.usd,
+      beingStakedCakes * currentPrice + totalProceed.usd - totalCost.usd,
   };
 }

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ScanServiceApiTransaction } from "types";
+import { ScanServiceApiTransaction } from "backend-feature/types";
 
 export async function getTransactionsFromAccount(args: {
   scanServiceApi: string;
