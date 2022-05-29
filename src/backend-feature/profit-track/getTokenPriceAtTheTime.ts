@@ -12,7 +12,8 @@ export async function getTokenPriceAtTheTime(args: {
 }) {
   try {
     const startTime = performance.now();
-    const mongoDbNamedId = `${args.platformId}-${args.tokenContractAddress}-${args.unixEpochtimeStamp}`;
+    const acceptedDeviatedCoinPriceInTimeRange = Math.floor(args.unixEpochtimeStamp / 1000);
+    const mongoDbNamedId = `${args.platformId}-${args.tokenContractAddress}-${acceptedDeviatedCoinPriceInTimeRange}`;
     const mongodbStoredCoinPrice = await findCoingeckoByNamedId(mongoDbNamedId);
     if (!mongodbStoredCoinPrice) {
       const client = new CoinGeckoClient();
@@ -31,6 +32,7 @@ export async function getTokenPriceAtTheTime(args: {
         }
         saveCoingeckoPrice({
           ...args,
+          namedId: mongoDbNamedId,
           priceInUsd: response.prices[0][1],
         });
         const endTime = performance.now();

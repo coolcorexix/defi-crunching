@@ -13,6 +13,7 @@ import axios from "axios";
 import { Dropdown } from "components/Dropdown";
 import { DexDropdown, dexOptions } from "components/DexDropdown";
 import { Option } from "react-dropdown";
+import { LoadingSpinner } from "components/LoadingSpinner";
 
 const Home: NextPage = () => {
   const [dexOption, setDexOption] = useState<Option>(dexOptions[0]);
@@ -20,7 +21,28 @@ const Home: NextPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [cakeStatResponse, setCakeStatResponse] =
     useState<CakeStatResponse>(null);
-  if (isLoading) {
+  if (true) {
+    return (
+      <div className="flex m-auto px-2 py-4 justify-around">
+        <div
+          style={{
+            width: 36,
+          }}
+        >
+          <LoadingSpinner />
+        </div>
+        <span>
+          Let&lsquo;s see where all the money goes down the rabit hole...{" "}
+        </span>
+        <div
+          style={{
+            width: 36,
+          }}
+        >
+          <LoadingSpinner />
+        </div>
+      </div>
+    );
     return <div className="m-auto px-2 py-4 bg-red-500">loading...</div>;
   }
 
@@ -43,14 +65,23 @@ const Home: NextPage = () => {
             );
             if (response.status === 200) {
               setCakeStatResponse(response.data);
+              console.log(
+                "🚀 ~ file: index.tsx ~ line 46 ~ onSubmit={ ~ response.data",
+                response.data
+              );
             }
             setIsLoading(false);
           }}
         >
           <div className="flex flex-row m-auto">
-            <DexDropdown className="w-64" onDexSelectChange={setDexOption}  />
-            <div className="w-96">
+            <DexDropdown className="w-64" onDexSelectChange={setDexOption} />
+            <div
+              style={{
+                width: 546,
+              }}
+            >
               <SearchBar
+                value={addressToSearchValue}
                 onChange={setAddressToSearchValue}
                 placeholder="An address to start with..."
               />

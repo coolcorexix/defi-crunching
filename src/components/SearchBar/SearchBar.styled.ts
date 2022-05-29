@@ -15,6 +15,7 @@ export const SearchBarContainer = styled.div<{ isActive: boolean }>`
     border: 2px solid ${base03};
     input {
       font-size: 21px;
+      width: 100%;
       caret-color: ${base03};
       background: transparent;
       border: none;

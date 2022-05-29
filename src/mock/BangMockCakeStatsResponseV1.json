@@ -1,0 +1,407 @@
+{
+  "usdGainLoss": -1308.4756907545686,
+  "earningTableData": [
+    {
+      "poolName": "autoCakePool",
+      "outputResponses": [
+        {
+          "method": "deposit",
+          "txHash": "0x3a41c15a7906826a1f781ddfea80126a23cc03168f2d77898dcd5db2f6b67b9c",
+          "createdTime": "2021-05-12T03:11:38.000Z",
+          "priceAtTheTime": 36.75553937902515,
+          "amountOfToken": 46.49408914,
+          "toUSDValue": 1708.9153242771756,
+          "efficientComparedToCurrentRate": 0.11758196264695825
+        },
+        {
+          "method": "withdraw",
+          "txHash": "0x944439cf7f378096ae6bb431585de299b4b8d44b9c4cb00670e6d1111b7858e7",
+          "createdTime": "2021-05-14T14:39:06.000Z",
+          "priceAtTheTime": 32.70205777338599,
+          "amountOfToken": 0.4995007106068642,
+          "toUSDValue": 16.33470109611303,
+          "efficientComparedToCurrentRate": 0.13215646820398416
+        },
+        {
+          "method": "harvest",
+          "txHash": "0xef5186d04cd00592f63896e7a66a838d65c80e2a01f5b0122980399be87e7e3b",
+          "createdTime": "2021-05-16T08:33:42.000Z",
+          "priceAtTheTime": 30.81720373962917,
+          "amountOfToken": 0,
+          "toUSDValue": 0,
+          "efficientComparedToCurrentRate": 0.1402394745106534
+        },
+        {
+          "method": "withdraw",
+          "txHash": "0x22024bc2099b067b10fa9aa866aa59c27297063786b6bdd847b11dcb0d6dde1f",
+          "createdTime": "2021-05-20T02:44:16.000Z",
+          "priceAtTheTime": 14.955657173006236,
+          "amountOfToken": 46.869990817249864,
+          "toUSDValue": 700.9715143647393,
+          "efficientComparedToCurrentRate": 0.2889734906556845
+        },
+        {
+          "method": "deposit",
+          "txHash": "0xfb8e77e144536427ae528d084f9ccc64f0da41f9d1e4f9a5c6c92aaa075c3c2d",
+          "createdTime": "2021-05-20T05:25:32.000Z",
+          "priceAtTheTime": 17.9391371778204,
+          "amountOfToken": 36.542974219220795,
+          "toUSDValue": 655.5494274041562,
+          "efficientComparedToCurrentRate": 0.24091395341336225
+        },
+        {
+          "method": "deposit",
+          "txHash": "0xe039c5f8e4e7c07cc87239dca4209187e04f6dda74b26b3e4f5b6dd153430f83",
+          "createdTime": "2021-05-20T10:30:48.000Z",
+          "priceAtTheTime": 17.468472031289608,
+          "amountOfToken": 6.2272569809590745,
+          "toUSDValue": 108.78066440353655,
+          "efficientComparedToCurrentRate": 0.24740506499893813
+        },
+        {
+          "method": "withdraw",
+          "txHash": "0x71407acdf76dfd78c3fbd0c3cb7563ccd9f273d35f5c3d167c32e8383dbf0817",
+          "createdTime": "2021-05-20T10:35:59.000Z",
+          "priceAtTheTime": 17.468472031289608,
+          "amountOfToken": 42.748072121036145,
+          "toUSDValue": 746.7435022378709,
+          "efficientComparedToCurrentRate": 0.24740506499893813
+        },
+        {
+          "method": "deposit",
+          "txHash": "0x6e322177131705a0457b05cbe4c3e733ca878dd4e40ac79df2359857fe86c7d4",
+          "createdTime": "2021-05-22T15:08:51.000Z",
+          "priceAtTheTime": 16.59278279917355,
+          "amountOfToken": 42.748072121036145,
+          "toUSDValue": 709.3094757877589,
+          "efficientComparedToCurrentRate": 0.2604619436438713
+        },
+        {
+          "method": "deposit",
+          "txHash": "0xd6b4cb8d7d4dcca35e4b7b003e59a625e0ee274d49a0fe3a2b239e3ab1ac1fb7",
+          "createdTime": "2021-06-02T08:29:02.000Z",
+          "priceAtTheTime": 18.586161231399068,
+          "amountOfToken": 0.4460814181095583,
+          "toUSDValue": 8.290941159315391,
+          "efficientComparedToCurrentRate": 0.23252722305196621
+        },
+        {
+          "method": "deposit",
+          "txHash": "0xcf344c9f7667c020cdbaf2adcd6de64afe680cc6001a4656c95c461de9fde853",
+          "createdTime": "2021-06-03T02:50:58.000Z",
+          "priceAtTheTime": 19.13726712494381,
+          "amountOfToken": 5.918,
+          "toUSDValue": 113.25434684541747,
+          "efficientComparedToCurrentRate": 0.22583101495721153
+        },
+        {
+          "method": "deposit",
+          "txHash": "0xb707d56c72d7118156fe966b1a63ab4a4fe9bec833a1260d03f97e5b7d098672",
+          "createdTime": "2021-06-03T08:46:46.000Z",
+          "priceAtTheTime": 20.349841524488223,
+          "amountOfToken": 9.664305,
+          "toUSDValue": 196.66707519431918,
+          "efficientComparedToCurrentRate": 0.2123745510810324
+        },
+        {
+          "method": "deposit",
+          "txHash": "0x065376d45aa4695726ed95361209668fceb41322d429e9231c756fcf5e24d5bb",
+          "createdTime": "2021-06-05T02:25:28.000Z",
+          "priceAtTheTime": 20.069749320348972,
+          "amountOfToken": 2.004,
+          "toUSDValue": 40.21977763797934,
+          "efficientComparedToCurrentRate": 0.21533843743386583
+        },
+        {
+          "method": "deposit",
+          "txHash": "0xddcb44699b0ce26640096ae2961a712efba7465b3b05ea49285ad3a6ef9dda56",
+          "createdTime": "2021-08-08T13:42:50.000Z",
+          "priceAtTheTime": 18.064672960789377,
+          "amountOfToken": 5.8742,
+          "toUSDValue": 106.11550190626896,
+          "efficientComparedToCurrentRate": 0.23923978406440455
+        },
+        {
+          "method": "deposit",
+          "txHash": "0xf6e1ec0ab59d08a6e9787290b884f347e9f8338a6f39e77d1d43d90cff1adb1c",
+          "createdTime": "2021-08-11T05:15:14.000Z",
+          "priceAtTheTime": 19.29102717064003,
+          "amountOfToken": 4.7231,
+          "toUSDValue": 91.11345042964993,
+          "efficientComparedToCurrentRate": 0.22403101815702597
+        },
+        {
+          "method": "deposit",
+          "txHash": "0x05866a5a42295b842a52a7ffbf3c12785ddbb217e3a2482f06f3befa893f9c94",
+          "createdTime": "2021-09-05T03:37:25.000Z",
+          "priceAtTheTime": 23.95652283984219,
+          "amountOfToken": 4.54,
+          "toUSDValue": 108.76261369288355,
+          "efficientComparedToCurrentRate": 0.1804013248177133
+        },
+        {
+          "method": "deposit",
+          "txHash": "0x1838d33ce9712f9059379a4e0ce19bbbf57e4c8ce4e749a34935ddce3c50ee51",
+          "createdTime": "2021-09-29T04:54:50.000Z",
+          "priceAtTheTime": 18.607795575463484,
+          "amountOfToken": 4.6108,
+          "toUSDValue": 85.79682383934704,
+          "efficientComparedToCurrentRate": 0.2322568753943166
+        },
+        {
+          "method": "withdraw",
+          "txHash": "0x71b8b90aa744a155bed68ad3c1c5d9e6929284508eaa7aa5ab2364cdeec333bd",
+          "createdTime": "2021-10-27T08:57:36.000Z",
+          "priceAtTheTime": 19.20724863465279,
+          "amountOfToken": 0.30000019631365127,
+          "toUSDValue": 5.762178361040947,
+          "efficientComparedToCurrentRate": 0.2250082008381032
+        },
+        {
+          "method": "deposit",
+          "txHash": "0x17bb757a58cf95046eda653011aaa57d07ca4280273967b88f6d6ea19eac0e1a",
+          "createdTime": "2021-11-02T02:03:04.000Z",
+          "priceAtTheTime": 18.472543050755018,
+          "amountOfToken": 0.30013786390569047,
+          "toUSDValue": 5.544309612159518,
+          "efficientComparedToCurrentRate": 0.2339574170410011
+        },
+        {
+          "method": "deposit",
+          "txHash": "0x64f38f16ab0f9d4e00357f9b2636262d7cb551bdbb9378e26b3b98297ab2825b",
+          "createdTime": "2021-11-02T02:07:52.000Z",
+          "priceAtTheTime": 18.16483866134101,
+          "amountOfToken": 6.54843,
+          "toUSDValue": 118.95117443508532,
+          "efficientComparedToCurrentRate": 0.23792055293786374
+        },
+        {
+          "method": "deposit",
+          "txHash": "0x2cfecf75b8a9eaa22f63bc33775f4306f163dbc1927b1c3a094677f8ee8355ce",
+          "createdTime": "2021-11-05T00:45:24.000Z",
+          "priceAtTheTime": 18.906487802800683,
+          "amountOfToken": 5.350275919600631,
+          "toUSDValue": 101.15492641554754,
+          "efficientComparedToCurrentRate": 0.22858758873729773
+        },
+        {
+          "method": "deposit",
+          "txHash": "0x49363e5d8336270ccd280977e79426dc46a1546a08b93351b4133e1851a4590b",
+          "createdTime": "2021-11-11T01:50:48.000Z",
+          "priceAtTheTime": 18.495018170559607,
+          "amountOfToken": 9.1086,
+          "toUSDValue": 168.4637225083592,
+          "efficientComparedToCurrentRate": 0.23367311232020124
+        },
+        {
+          "method": "withdraw",
+          "txHash": "0x766994fb61d6336dc48b8b76bf643f25035840658eb4a7665072f082c9518268",
+          "createdTime": "2021-11-16T08:42:43.000Z",
+          "priceAtTheTime": 18.20052992647755,
+          "amountOfToken": 6.000004115264411,
+          "toUSDValue": 109.20325445885837,
+          "efficientComparedToCurrentRate": 0.23745399039432022
+        },
+        {
+          "method": "deposit",
+          "txHash": "0x3c33a0ba4da8b251fb1aa6079b900e9383b194c729afe7f2fd024397401f3410",
+          "createdTime": "2021-11-17T08:33:19.000Z",
+          "priceAtTheTime": 16.391359963116606,
+          "amountOfToken": 18.99174513046528,
+          "toUSDValue": 311.30053076122334,
+          "efficientComparedToCurrentRate": 0.26366259224726374
+        },
+        {
+          "method": "deposit",
+          "txHash": "0x520e7df22498b04dce30525eb3bfe2a65f7d1272d8b928cc2a5da7c7c9a0dbe1",
+          "createdTime": "2021-11-22T09:31:15.000Z",
+          "priceAtTheTime": 15.66759973379572,
+          "amountOfToken": 10.501,
+          "toUSDValue": 164.52546480458884,
+          "efficientComparedToCurrentRate": 0.2758424092881978
+        },
+        {
+          "method": "withdrawAll",
+          "txHash": "0x9e7ff213193fb1f59054851dd7f2190618c917a5d324691a8c04b0e2951aa66c",
+          "createdTime": "2021-12-01T11:05:06.000Z",
+          "priceAtTheTime": 14.09124614398421,
+          "amountOfToken": 153.4150104229134,
+          "toUSDValue": 2161.808674051176,
+          "efficientComparedToCurrentRate": 0.3067002317732121
+        },
+        {
+          "method": "deposit",
+          "txHash": "0x64eb382d398322dd469be32cb0e870ec02d53e215e186156fab05089143e78c1",
+          "createdTime": "2021-12-03T01:59:17.000Z",
+          "priceAtTheTime": 13.146974159788078,
+          "amountOfToken": 68.68318128306035,
+          "toUSDValue": 902.9760095404346,
+          "efficientComparedToCurrentRate": 0.3287287558191263
+        },
+        {
+          "method": "deposit",
+          "txHash": "0xb0cba8ee393aa5f894ce1942ecae9c7ec614321bcefc0edaa54e98c5073efd64",
+          "createdTime": "2021-12-04T11:42:42.000Z",
+          "priceAtTheTime": 11.15227565713509,
+          "amountOfToken": 131.2028432731787,
+          "toUSDValue": 1463.2102751823813,
+          "efficientComparedToCurrentRate": 0.38752525414562455
+        },
+        {
+          "method": "withdraw",
+          "txHash": "0x0912e3c53a52c1ed4483d39c2ec8428b900dd74a09dc20152a90d56e9f78fdb0",
+          "createdTime": "2021-12-14T12:32:12.000Z",
+          "priceAtTheTime": 11.555685835231348,
+          "amountOfToken": 203.08491163230627,
+          "toUSDValue": 2346.7854366986517,
+          "efficientComparedToCurrentRate": 0.37399670776414934
+        },
+        {
+          "method": "deposit",
+          "txHash": "0x97be9538bf3e4e1d5f305521241fc0582b237f0a9fb09f8e5bde1ac06126f676",
+          "createdTime": "2022-01-18T16:14:41.000Z",
+          "priceAtTheTime": 10.757103722482398,
+          "amountOfToken": 228.62227247029742,
+          "toUSDValue": 2459.3134982326214,
+          "efficientComparedToCurrentRate": 0.40176134485909804
+        },
+        {
+          "method": "deposit",
+          "txHash": "0xac6a3ecf9e1c14e511538d962d03cfff5566bde4daaf9694e24729eff1c36569",
+          "createdTime": "2022-01-26T04:02:10.000Z",
+          "priceAtTheTime": 7.603327573967738,
+          "amountOfToken": 27.67727,
+          "toUSDValue": 210.43935016315007,
+          "efficientComparedToCurrentRate": 0.5684075053046868
+        },
+        {
+          "method": "withdrawAll",
+          "txHash": "0x19749a10f164ee22eea9fd73b9875006b10314df0bf2c58e16e650b6c893e00c",
+          "createdTime": "2022-04-20T04:17:49.000Z",
+          "priceAtTheTime": 8.63151877825817,
+          "amountOfToken": 288.96828594446174,
+          "toUSDValue": 2494.235186450698,
+          "efficientComparedToCurrentRate": 0.5006984945939571
+        }
+      ],
+      "totalCost": {
+        "usd": 9838.654684233357,
+        "cake": 676.7786348198337
+      },
+      "totalProceed": {
+        "usd": 8581.844447719148,
+        "cake": 741.8857759601524
+      },
+      "gainOrLossInUsd": -1256.8100753480721
+    },
+    {
+      "poolName": "ifoCakePool",
+      "outputResponses": [
+        {
+          "method": "deposit",
+          "txHash": "0x541e8e230a3f97f4b5782e8f9f1740f4a9cc9d3cc4d2700ab7dcd1405e5d97a0",
+          "createdTime": "2021-12-14T12:33:33.000Z",
+          "priceAtTheTime": 11.555685835231348,
+          "amountOfToken": 207.64491163230628,
+          "toUSDValue": 2399.4793641073065,
+          "efficientComparedToCurrentRate": 0.37399670776414934
+        },
+        {
+          "method": "deposit",
+          "txHash": "0xe8832957974068e1ef7b2812516997046de5ef282755c7c2de966da8262e95dd",
+          "createdTime": "2022-01-02T08:35:08.000Z",
+          "priceAtTheTime": 11.898179475848574,
+          "amountOfToken": 7,
+          "toUSDValue": 83.28725633094001,
+          "efficientComparedToCurrentRate": 0.3632310696864076
+        },
+        {
+          "method": "deposit",
+          "txHash": "0xf22de92ec64c96773ca9c55391b0e2b7de45af0060ef4510bd0f2af2b011f6d6",
+          "createdTime": "2022-01-06T06:27:26.000Z",
+          "priceAtTheTime": 11.200101099020204,
+          "amountOfToken": 3.8677744541732717,
+          "toUSDValue": 43.31946491494833,
+          "efficientComparedToCurrentRate": 0.3858704863576109
+        },
+        {
+          "method": "withdraw",
+          "txHash": "0x28d83af2c2b5a7da434faa496f014a3677a1b3631cbefac0ee28b09bc67eed11",
+          "createdTime": "2022-01-18T10:14:38.000Z",
+          "priceAtTheTime": 10.927433794845168,
+          "amountOfToken": 229.2585198600033,
+          "toUSDValue": 2505.207297674382,
+          "efficientComparedToCurrentRate": 0.39549893776268574
+        }
+      ],
+      "totalCost": {
+        "usd": 2526.086085353195,
+        "cake": 218.51268608647953
+      },
+      "totalProceed": {
+        "usd": 2505.207297674382,
+        "cake": 229.2585198600033
+      },
+      "gainOrLossInUsd": -20.878626512675964
+    },
+    {
+      "poolName": "manualCakePool",
+      "outputResponses": [
+        {
+          "method": "enterStaking",
+          "txHash": "0x2812aa991c7dfa17ddd9dc4738dca4fe4fa6b73d10bdc1f63840636196353db6",
+          "createdTime": "2021-04-27T09:37:36.000Z",
+          "priceAtTheTime": 33.67447651336142,
+          "amountOfToken": 4.942944,
+          "toUSDValue": 166.45105163486073,
+          "efficientComparedToCurrentRate": 0.12834018241140382
+        },
+        {
+          "method": "leaveStaking",
+          "txHash": "0x4dcf082e0eea3c773966acfaeef564cb39da7fe9237c852a1f533be584903bea",
+          "createdTime": "2021-04-27T14:22:33.000Z",
+          "priceAtTheTime": 34.89654398686497,
+          "amountOfToken": 4.945387142060188,
+          "toUSDValue": 172.57691993497977,
+          "efficientComparedToCurrentRate": 0.12384574415048252
+        },
+        {
+          "method": "enterStaking",
+          "txHash": "0x673443e34c5a91fe54a498c13f9c7ba1385da1efca7fa88f01d2e30c205e28a3",
+          "createdTime": "2021-11-25T02:43:51.000Z",
+          "priceAtTheTime": 14.254496192612413,
+          "amountOfToken": 9.879,
+          "toUSDValue": 140.820167886818,
+          "efficientComparedToCurrentRate": 0.30318773809579913
+        },
+        {
+          "method": "enterStaking",
+          "txHash": "0xbfdad1d0faec32f28d5739ef9855ab259b142e41f504ff5eae59370ab22b7091",
+          "createdTime": "2021-12-01T12:18:04.000Z",
+          "priceAtTheTime": 13.990815122390183,
+          "amountOfToken": 58.64911523127575,
+          "toUSDValue": 820.5489282925372,
+          "efficientComparedToCurrentRate": 0.3089018345626603
+        },
+        {
+          "method": "leaveStaking",
+          "txHash": "0x50efd49cdeca22898e592d449dca1342d72181a5b442aa24fc86b8f362485aa3",
+          "createdTime": "2021-12-02T02:25:53.000Z",
+          "priceAtTheTime": 13.478144996132587,
+          "amountOfToken": 68.58930228031772,
+          "toUSDValue": 924.4565613176898,
+          "efficientComparedToCurrentRate": 0.32065157776336656
+        }
+      ],
+      "totalCost": {
+        "usd": 1127.820147814216,
+        "cake": 73.47105923127575
+      },
+      "totalProceed": {
+        "usd": 1097.0334812526696,
+        "cake": 73.53468942237791
+      },
+      "gainOrLossInUsd": -30.786666561546326
+    }
+  ]
+}

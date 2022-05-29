@@ -64,7 +64,6 @@ export const saveCoingeckoPrice = async (
   await makeSureMongoDbIsConnected();
   await getCoinGeckoPriceAtTheTimeModel().create({
     ...newCoingeckPrice,
-    namedId: `${newCoingeckPrice.platformId}-${newCoingeckPrice.tokenContractAddress}-${newCoingeckPrice.unixEpochtimeStamp}`,
   });
 };
 
