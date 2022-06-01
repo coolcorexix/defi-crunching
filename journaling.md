@@ -96,3 +96,9 @@ it is done, like nicely done haha
 ```
 - To fix "...from agent: agent refused operation" , run: `$ chmod 600 /home/<username>/.ssh/id_rsa` -> connected to digital ocean
 ```
+
+- TypeError: String(...).replaceAll is not a function
+```
+method is not supported in some environment
+how to fix: https://www.designcise.com/web/tutorial/how-to-fix-replaceall-is-not-a-function-javascript-error
+```
