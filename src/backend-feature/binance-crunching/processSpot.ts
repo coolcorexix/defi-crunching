@@ -5,6 +5,7 @@ import uniq from "lodash/uniq";
 import { splitNumberAndAlphabet } from "backend-feature/utils/splitAtFirtAlphabet";
 import { getCoinIdFromTicker } from "backend-feature/utils/getCoinIdFromTicker";
 import { getCoinGeckoCurrentPrice } from "backend-feature/profit-track/getCoinGeckoCurrentPrice";
+import { roundNumber, roundToThreeDigit } from "utils/roundNumber";
 
 export interface CSVSpotTransaction {
   "Date(UTC)": string;
@@ -27,17 +28,18 @@ export interface OutputSpotTransaction {
   priceAtTheTime: number;
   growthRateOnThisTrade?: string;
   side: 'SELL' | 'BUY';
+  [key: string]: any;
 }
 
-export function processSpot(): Promise<any> {
+export function processSpot(inputSpotTransactions: string): Promise<any> {
   let outputP2PTx: OutputSpotTransaction[] = [];
-  const filePath = path.resolve(
-    process.cwd(),
-    "src/backend-feature/binance-crunching/testdata/l1y-spot-export.csv"
-  );
-  const inputSpotTransactions = fs.readFileSync(filePath, {
-    encoding: "utf-8",
-  });
+  // const filePath = path.resolve(
+  //   process.cwd(),
+  //   "src/backend-feature/binance-crunching/testdata/reduced-l1y-spot-export.csv"
+  // );
+  // const inputSpotTransactions = fs.readFileSync(filePath, {
+  //   encoding: "utf-8",
+  // });
 
   const parser = parse({
     delimiter: ",",
@@ -77,15 +79,28 @@ export function processSpot(): Promise<any> {
         coinGeckoPrices[tx.fromCoinId].usd / coinGeckoPrices[tx.toCoinId].usd;
         console.log(`🚀 ~ file: processSpot.ts ~ line 75 ~ outputP2PTx.forEach ~ currentPrice ${tx.fromTicker}/${tx.toTicker}: `, currentPrice)
         let growthRateOnThisTrade;
+        tx.pair = `${tx.fromTicker}/${tx.toTicker}`;
         if (tx.side === 'SELL') {
           growthRateOnThisTrade = tx.priceAtTheTime / currentPrice;
         }
         if (tx.side === 'BUY') {
           growthRateOnThisTrade = currentPrice / tx.priceAtTheTime;
         }
-        tx.growthRateOnThisTrade = `${(growthRateOnThisTrade - 1)* 100}%`;
+        tx.growthRateOnThisTrade = `${roundToThreeDigit((growthRateOnThisTrade - 1)* 100)}%`;
+        tx.currentPrice = currentPrice;
       });
-      console.table(outputP2PTx);
+      console.table(outputP2PTx.map(tx => {
+        return {
+          buyDate: tx.buyDate,
+          side: tx.side,
+          pair: tx.pair,
+          from: `${tx.fromAmount} ${tx.fromTicker}`,
+          to: `${tx.toAmount} ${tx.toTicker}`,
+          priceAtTheTime: roundToThreeDigit(tx.priceAtTheTime),
+          currentPrice: roundToThreeDigit(tx.currentPrice),
+          growthRateOnThisTrade: tx.growthRateOnThisTrade,
+        }
+      }));
       resolve(outputP2PTx);
     });
 

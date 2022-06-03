@@ -102,3 +102,12 @@ it is done, like nicely done haha
 method is not supported in some environment
 how to fix: https://www.designcise.com/web/tutorial/how-to-fix-replaceall-is-not-a-function-javascript-error
 ```
+
+- Upload file and process in NextJs API
+```
+Disable default full body parser to allow request to come in the form of stream
+Use next-connect so we can use middleware easier, it is made by a VNese!
+use multer and store it in memory so that we don't have to store the file
+after multer middleware, file will be attached to req.file and we can use it in our handler
+the whole thing is pretty messy and need customized typing, but it works
+```
