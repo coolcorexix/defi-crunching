@@ -10,7 +10,7 @@ import { roundNumber, roundToThreeDigit } from "utils/roundNumber";
 export interface CSVSpotTransaction {
   "Date(UTC)": string;
   Pair: string;
-  Side: 'SELL' | 'BUY';
+  Side: "SELL" | "BUY";
   Price: string;
   Executed: string;
   Amount: string;
@@ -27,7 +27,7 @@ export interface OutputSpotTransaction {
   toCoinId: string;
   priceAtTheTime: number;
   growthRateOnThisTrade?: string;
-  side: 'SELL' | 'BUY';
+  side: "SELL" | "BUY";
   [key: string]: any;
 }
 
@@ -76,31 +76,25 @@ export function processSpot(inputSpotTransactions: string): Promise<any> {
       const coinGeckoPrices = await getCoinGeckoCurrentPrice(coinIds);
       outputP2PTx.forEach((tx) => {
         const currentPrice =
-        coinGeckoPrices[tx.fromCoinId].usd / coinGeckoPrices[tx.toCoinId].usd;
-        console.log(`🚀 ~ file: processSpot.ts ~ line 75 ~ outputP2PTx.forEach ~ currentPrice ${tx.fromTicker}/${tx.toTicker}: `, currentPrice)
+          coinGeckoPrices[tx.fromCoinId].usd / coinGeckoPrices[tx.toCoinId].usd;
+        console.log(
+          `🚀 ~ file: processSpot.ts ~ line 75 ~ outputP2PTx.forEach ~ currentPrice ${tx.fromTicker}/${tx.toTicker}: `,
+          currentPrice
+        );
         let growthRateOnThisTrade;
         tx.pair = `${tx.fromTicker}/${tx.toTicker}`;
-        if (tx.side === 'SELL') {
+        if (tx.side === "SELL") {
           growthRateOnThisTrade = tx.priceAtTheTime / currentPrice;
         }
-        if (tx.side === 'BUY') {
+        if (tx.side === "BUY") {
           growthRateOnThisTrade = currentPrice / tx.priceAtTheTime;
         }
-        tx.growthRateOnThisTrade = `${roundToThreeDigit((growthRateOnThisTrade - 1)* 100)}%`;
+        tx.growthRateOnThisTrade = `${roundToThreeDigit(
+          (growthRateOnThisTrade - 1) * 100
+        )}%`;
         tx.currentPrice = currentPrice;
       });
-      console.table(outputP2PTx.map(tx => {
-        return {
-          buyDate: tx.buyDate,
-          side: tx.side,
-          pair: tx.pair,
-          from: `${tx.fromAmount} ${tx.fromTicker}`,
-          to: `${tx.toAmount} ${tx.toTicker}`,
-          priceAtTheTime: roundToThreeDigit(tx.priceAtTheTime),
-          currentPrice: roundToThreeDigit(tx.currentPrice),
-          growthRateOnThisTrade: tx.growthRateOnThisTrade,
-        }
-      }));
+
       resolve(outputP2PTx);
     });
 

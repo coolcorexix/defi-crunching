@@ -1,9 +1,23 @@
+import { Row, Table } from "@coolcorexix/ui-kit";
 import axios from "axios";
+import { OutputSpotTransaction } from "backend-feature/binance-crunching/processSpot";
 import React, { useState } from "react";
+import { roundToThreeDigit } from "utils/roundNumber";
 
+const headers = [
+  "Date",
+  "Side",
+  "Pair",
+  "From",
+  "To",
+  "Price at the time ",
+  "Current price",
+  "GROTD",
+];
 function BinancePage() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [isSelected, setIsSelected] = useState(false);
+  const [rows, setRows] = useState([]);
   const changeHandler = (event: any) => {
     setSelectedFile(event.target.files[0]);
     setIsSelected(true);
@@ -19,7 +33,20 @@ function BinancePage() {
       },
     };
     axios.post("/api/processSpot", data, config).then((rs) => {
-      console.log("🚀 ~ file: index.tsx ~ line 22 ~ axios.post ~ rs", rs);
+      const outputP2PTx = rs.data;
+      const displayOutputs = outputP2PTx.map((tx: OutputSpotTransaction) => {
+        return {
+          buyDate: tx.buyDate,
+          side: tx.side,
+          pair: tx.pair,
+          from: `${tx.fromAmount} ${tx.fromTicker}`,
+          to: `${tx.toAmount} ${tx.toTicker}`,
+          priceAtTheTime: roundToThreeDigit(tx.priceAtTheTime),
+          currentPrice: roundToThreeDigit(tx.currentPrice),
+          growthRateOnThisTrade: tx.growthRateOnThisTrade,
+        };
+      });
+      setRows(displayOutputs);
     });
   };
   return (
@@ -55,6 +82,24 @@ function BinancePage() {
           </button>
         </div>
       </div>
+      {rows.length !== 0 && (
+        <Table>
+          <Row isHeading>
+            {headers.map((header) => (
+              <span key={header}>{header}</span>
+            ))}
+          </Row>
+          {rows.map((row) => {
+            return (
+              <Row key={row.buyDate}>
+                {Object.values(row).map((value, index) => {
+                  return <span key={index}>{value}</span>;
+                })}
+              </Row>
+            );
+          })}
+        </Table>
+      )}
     </div>
   );
 }
