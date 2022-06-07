@@ -7,8 +7,9 @@ import mongoose, {
 
 export interface CoinGeckoAtTheTime {
   namedId?: string;
-  platformId: string;
-  tokenContractAddress: string;
+  coinId?: string;
+  platformId?: string;
+  tokenContractAddress?: string;
   unixEpochtimeStamp: number;
   priceInUsd: number;
 }

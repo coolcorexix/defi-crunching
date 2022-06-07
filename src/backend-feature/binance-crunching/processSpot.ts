@@ -1,11 +1,7 @@
 import { parse } from "csv-parse";
-import path from "path";
-import fs from "fs";
-import uniq from "lodash/uniq";
-import { splitNumberAndAlphabet } from "backend-feature/utils/splitAtFirtAlphabet";
 import { getCoinIdFromTicker } from "backend-feature/utils/getCoinIdFromTicker";
-import { getCoinGeckoCurrentPrice } from "backend-feature/profit-track/getCoinGeckoCurrentPrice";
-import { roundNumber, roundToThreeDigit } from "utils/roundNumber";
+import { getQuantityAndLatestTicker } from "backend-feature/utils/getQuantityAndLatestCoinId";
+import { convertDateTimeToEpochTimestamp } from "backend-feature/utils/convertDateTimeToEpochTimestamp";
 
 export interface CSVSpotTransaction {
   "Date(UTC)": string;
@@ -18,7 +14,7 @@ export interface CSVSpotTransaction {
 }
 
 export interface OutputSpotTransaction {
-  buyDate: Date;
+  executeDate: Date;
   fromAmount: number;
   fromTicker: string;
   fromCoinId: string;
@@ -26,20 +22,12 @@ export interface OutputSpotTransaction {
   toTicker: string;
   toCoinId: string;
   priceAtTheTime: number;
-  growthRateOnThisTrade?: string;
   side: "SELL" | "BUY";
-  [key: string]: any;
+  pair?: string;
 }
 
 export function processSpot(inputSpotTransactions: string): Promise<any> {
   let outputP2PTx: OutputSpotTransaction[] = [];
-  // const filePath = path.resolve(
-  //   process.cwd(),
-  //   "src/backend-feature/binance-crunching/testdata/reduced-l1y-spot-export.csv"
-  // );
-  // const inputSpotTransactions = fs.readFileSync(filePath, {
-  //   encoding: "utf-8",
-  // });
 
   const parser = parse({
     delimiter: ",",
@@ -50,12 +38,18 @@ export function processSpot(inputSpotTransactions: string): Promise<any> {
       let record: CSVSpotTransaction;
 
       while ((record = parser.read())) {
-        const { theNumber: toAmount, theChar: toTicker } =
-          splitNumberAndAlphabet(record.Amount);
-        const { theNumber: fromAmount, theChar: fromTicker } =
-          splitNumberAndAlphabet(record.Executed);
+        const { quantity: toAmount, ticker: toTicker } =
+          getQuantityAndLatestTicker(
+            record.Amount,
+            convertDateTimeToEpochTimestamp(new Date(record["Date(UTC)"]))
+          );
+        const { quantity: fromAmount, ticker: fromTicker } =
+          getQuantityAndLatestTicker(
+            record.Executed,
+            convertDateTimeToEpochTimestamp(new Date(record["Date(UTC)"]))
+          );
         outputP2PTx.push({
-          buyDate: new Date(record["Date(UTC)"]),
+          executeDate: new Date(record["Date(UTC)"]),
           fromAmount,
           fromTicker,
           fromCoinId: getCoinIdFromTicker(fromTicker),
@@ -66,33 +60,9 @@ export function processSpot(inputSpotTransactions: string): Promise<any> {
           side: record.Side,
         });
       }
-      let coinIds = uniq(
-        outputP2PTx.reduce((acc, tx) => {
-          acc.push(tx.fromCoinId);
-          acc.push(tx.toCoinId);
-          return acc;
-        }, [])
-      );
-      const coinGeckoPrices = await getCoinGeckoCurrentPrice(coinIds);
+
       outputP2PTx.forEach((tx) => {
-        const currentPrice =
-          coinGeckoPrices[tx.fromCoinId].usd / coinGeckoPrices[tx.toCoinId].usd;
-        console.log(
-          `🚀 ~ file: processSpot.ts ~ line 75 ~ outputP2PTx.forEach ~ currentPrice ${tx.fromTicker}/${tx.toTicker}: `,
-          currentPrice
-        );
-        let growthRateOnThisTrade;
         tx.pair = `${tx.fromTicker}/${tx.toTicker}`;
-        if (tx.side === "SELL") {
-          growthRateOnThisTrade = tx.priceAtTheTime / currentPrice;
-        }
-        if (tx.side === "BUY") {
-          growthRateOnThisTrade = currentPrice / tx.priceAtTheTime;
-        }
-        tx.growthRateOnThisTrade = `${roundToThreeDigit(
-          (growthRateOnThisTrade - 1) * 100
-        )}%`;
-        tx.currentPrice = currentPrice;
       });
 
       resolve(outputP2PTx);

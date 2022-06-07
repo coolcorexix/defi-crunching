@@ -7,6 +7,7 @@ import {
   TESTNET_ROUTER_ADDRESS,
 } from "backend-feature/constants/BASE_TRADE_PAIRS";
 import { GAS_PRICE_GWEI } from "backend-feature/constants/gasPrice";
+import { CoinGeckoClient } from "coingecko-api-v3";
 
 let chainId: any = null;
 
@@ -63,3 +64,5 @@ export const getRouterAddress = () => {
   }
   throw new Error("chainId is not set");
 };
+
+export const coinGeckoClient = new CoinGeckoClient();

@@ -16,7 +16,7 @@ export interface CSVP2PTransaction {
 }
 
 export interface OutputP2PTransaction {
-  buyDate: Date;
+  executeDate: Date;
   fiatAmount: number;
   fiatType: "VND";
   assetAmount: number;
@@ -39,7 +39,7 @@ export async function processP2P(): Promise<any> {
       let record;
       while ((record = parser.read())) {
         outputP2PTx.push({
-          buyDate: new Date(record["Created Time"]),
+          executeDate: new Date(record["Created Time"]),
           fiatAmount: parseFloat(record["Total Price"]),
           fiatType: record["Fiat Type"],
           assetAmount: parseFloat(record["Quantity"]),
