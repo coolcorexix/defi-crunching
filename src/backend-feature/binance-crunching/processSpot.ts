@@ -52,10 +52,10 @@ export function processSpot(inputSpotTransactions: string): Promise<any> {
           executeDate: new Date(record["Date(UTC)"]),
           fromAmount,
           fromTicker,
-          fromCoinId: getCoinIdFromTicker(fromTicker),
+          fromCoinId: await getCoinIdFromTicker(fromTicker),
           toAmount,
           toTicker,
-          toCoinId: getCoinIdFromTicker(toTicker),
+          toCoinId: await getCoinIdFromTicker(toTicker),
           priceAtTheTime: Number(record.Price.replace(/,/g, "")),
           side: record.Side,
         });

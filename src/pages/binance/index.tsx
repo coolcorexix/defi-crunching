@@ -5,9 +5,10 @@ import { CalculateTotalVolumeInputItem } from "backend-feature/calculateTotalVol
 import { SimplePriceResponse } from "coingecko-api-v3";
 import { LoadingSpinner } from "components/LoadingSpinner";
 import { ManualAddRow } from "components/ManualAddRow";
+import { TotalGainLossPanel } from "components/TotalGainLossPanel";
 import { useCurrentPrice } from "hooks/useCurrentPrice";
 import uniq from "lodash/uniq";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { computeROIofTrade } from "utils/computeROIofTrade";
 import { roundToThreeDigit } from "utils/roundNumber";
 
@@ -21,19 +22,24 @@ const headers = [
   "Current price",
   "ROI",
 ];
-
-export interface DisplaySpotRow {
-  meta: {
-    fromCoinId: string;
-    toCoinId: string;
-  };
+export interface MasterSpotRowMeta {
+  fromCoinId: string;
+  toCoinId: string;
+  exactPriceAtTheTime: number;
+  exactCurrentPrice?: any;
+  outputWorthInUsd?: number;
+  fromAmount: number;
+  toAmount: number;
+}
+export interface MasterSpotRow {
+  meta: MasterSpotRowMeta;
   display: {
     executeDate: Date;
     side: "SELL" | "BUY";
     pair: string;
     from: string;
     to: string;
-    priceAtTheTime: number;
+    priceAtTheTime: string;
     currentPrice: any;
     ROIofThisTrade: any;
   };
@@ -41,11 +47,14 @@ export interface DisplaySpotRow {
 
 function transformOutputSpotTransaction(
   tx: OutputSpotTransaction
-): DisplaySpotRow {
+): MasterSpotRow {
   return {
     meta: {
       fromCoinId: tx.fromCoinId,
       toCoinId: tx.toCoinId,
+      exactPriceAtTheTime: tx.priceAtTheTime,
+      fromAmount: tx.fromAmount,
+      toAmount: tx.toAmount,
     },
     display: {
       executeDate: tx.executeDate,
@@ -53,7 +62,7 @@ function transformOutputSpotTransaction(
       pair: tx.pair,
       from: `${tx.fromAmount} ${tx.fromTicker}`,
       to: `${tx.toAmount} ${tx.toTicker}`,
-      priceAtTheTime: Number(roundToThreeDigit(tx.priceAtTheTime)),
+      priceAtTheTime: roundToThreeDigit(tx.priceAtTheTime),
       currentPrice: <LoadingSpinner />,
       ROIofThisTrade: <LoadingSpinner />,
     },
@@ -67,7 +76,7 @@ function BinancePage() {
   const currentPrices = useCurrentPrice(interestedCoinIds);
   const [isSelected, setIsSelected] = useState(false);
   const [totalExecutedVolume, setTotalExecutedVolume] = useState(null);
-  const [rows, setRows] = useState<DisplaySpotRow[]>([]);
+  const [masterRows, setMasterRows] = useState<MasterSpotRow[]>([]);
   const changeHandler = (event: any) => {
     setSelectedFile(event.target.files[0]);
     setIsSelected(true);
@@ -86,7 +95,7 @@ function BinancePage() {
       .post<OutputSpotTransaction[]>("/api/processSpot", data, config)
       .then((rs) => {
         const outputSpotTx = rs.data;
-        const displayOutputs = outputSpotTx.map((tx) =>
+        const spotOutputs = outputSpotTx.map((tx) =>
           transformOutputSpotTransaction(tx)
         );
         let coinIds = uniq(
@@ -97,7 +106,7 @@ function BinancePage() {
           }, [])
         );
         setInterestedCoinIds(coinIds);
-        setRows(displayOutputs);
+        setMasterRows(spotOutputs);
         const inputVolumeInputs: CalculateTotalVolumeInputItem[] =
           outputSpotTx.map((tx) => {
             return {
@@ -120,8 +129,23 @@ function BinancePage() {
       });
   };
 
+  const updateMetaOfMasterRow = (
+    index: number,
+    newMetaData: Partial<MasterSpotRowMeta>
+  ) => {
+    console.log("this is update on every re-render");
+    // does not need to trigger re-render because it is in meta, don't if suitable to useCallback
+    masterRows[index].meta = {
+      ...masterRows[index].meta,
+      ...newMetaData,
+    };
+  };
+
   const rowDisplays = useMemo(() => {
-    const rowDisplays = rows.map((row) => {
+    if (!currentPrices || Object.keys(currentPrices).length === 0) {
+      return [];
+    }
+    const rowDisplays = masterRows.map((row) => {
       return row.display;
     });
     console.log(
@@ -129,74 +153,117 @@ function BinancePage() {
       currentPrices
     );
     const newRowDisplays = rowDisplays.map((rowDisplay, index) => {
-      const currentPrice = currentPrices
-        ? currentPrices[rows[index].meta.fromCoinId].usd /
-          currentPrices[rows[index].meta.toCoinId].usd
-        : 0;
       console.log(
         "🚀 ~ file: index.tsx ~ line 131 ~ newRowDisplays ~ currentPrice",
-        currentPrice
+        currentPrices
       );
+      const currentPrice = currentPrices
+        ? currentPrices[masterRows[index].meta.fromCoinId].usd /
+          currentPrices[masterRows[index].meta.toCoinId].usd
+        : 0;
+
+      updateMetaOfMasterRow(index, {
+        exactCurrentPrice: currentPrice,
+        outputWorthInUsd:
+          currentPrices[masterRows[index].meta.toCoinId].usd *
+          masterRows[index].meta.toAmount,
+      });
 
       return {
         ...rowDisplay,
         currentPrice: roundToThreeDigit(currentPrice),
-        ROIofThisTrade: computeROIofTrade({
-          ...rowDisplay
-        }, currentPrice),
+        ROIofThisTrade: computeROIofTrade(
+          {
+            side: rowDisplay.side,
+            priceAtTheTime: masterRows[index].meta.exactPriceAtTheTime,
+          },
+          currentPrice
+        ),
       };
     });
     return newRowDisplays;
-  }, [rows, currentPrices]);
+  }, [masterRows, currentPrices]);
+  const totalWorth = useMemo(() => {
+    return masterRows.reduce((acc, el) => {
+      return acc + el.meta.outputWorthInUsd;
+    }, 0);
+  }, [rowDisplays]);
 
   return (
     <div className="m-auto p-4">
       <span className="block text-3xl font-bold mb-4">DoughWatch</span>
-      <div>
-        <b>Step 1:</b> Get your spot trading transaction history by following
-        this{" "}
-        <a
-          href="https://www.binance.com/en-AU/support/faq/e4ff64f2533f4d23a0b3f8f17f510eab"
-          target="_blank"
-          rel="noreferrer"
-        >
-          instruction
-        </a>
-      </div>
-      <div>
+      <div className="mb-8">
         <div>
-          <b>Step 2:</b> Upload your exported <code>.csv</code> file
-        </div>
-        <input type="file" onChange={changeHandler} accept=".csv" />
-      </div>
-      <div>
-        <div>
-          <b>Step 3:</b> Press the button and wait for the result
-        </div>
-        <div>
-          <button
-            onClick={() => {
-              processSpot();
-            }}
+          <b>Step 1:</b> Get your spot trading transaction history by following
+          this{" "}
+          <a
+            href="https://www.binance.com/en-AU/support/faq/e4ff64f2533f4d23a0b3f8f17f510eab"
+            target="_blank"
+            rel="noreferrer"
           >
-            [Process]
-          </button>
+            instruction
+          </a>
+        </div>
+        <div>
+          <div>
+            <b>Step 2:</b> Upload your exported <code>.csv</code> file
+          </div>
+          <input type="file" onChange={changeHandler} accept=".csv" />
+        </div>
+        <div>
+          <div>
+            <b>Step 3:</b> Press the button and wait for the result
+          </div>
+          <div>
+            <button
+              onClick={() => {
+                processSpot();
+              }}
+            >
+              [Process]
+            </button>
+          </div>
         </div>
       </div>
-      {rows.length !== 0 && (
+
+      {masterRows.length !== 0 && (
         <>
-          <div>
-            <span>
-              Total executed volume (in USD):
+          <div className="mb-4">
+            <div className="flex w-80 justify-between">
+              <b>Total executed volume:</b>
               <span>
                 &nbsp;
                 {!!totalExecutedVolume ? (
-                  roundToThreeDigit(totalExecutedVolume)
+                  roundToThreeDigit(totalExecutedVolume) + " USD"
                 ) : (
-                  <div> {loadingSpinner}</div>
+                  <span> {loadingSpinner}</span>
                 )}
               </span>
-            </span>
+            </div>
+            <div className="flex w-80 justify-between">
+              <b>Total worth up to now:</b>
+              <span>
+                &nbsp;
+                {!!totalWorth ? (
+                  roundToThreeDigit(totalWorth) + " USD"
+                ) : (
+                  <span> {loadingSpinner}</span>
+                )}
+              </span>
+            </div>
+            <div className="flex w-80 justify-between">
+              <b>Margin:</b>
+              <div>
+                <span>
+                  &nbsp;
+                  {!!totalWorth && !!totalExecutedVolume ? (
+                    roundToThreeDigit(totalWorth - totalExecutedVolume) + " USD"
+                  ) : (
+                    <span> {loadingSpinner}</span>
+                  )}
+                </span>
+              </div>
+            </div>
           </div>
           <Table>
             <Row isHeading>
@@ -206,7 +273,10 @@ function BinancePage() {
             </Row>
             <ManualAddRow
               onCreateSuccessfully={(transaction) => {
-                setRows([transformOutputSpotTransaction(transaction), ...rows]);
+                setMasterRows([
+                  transformOutputSpotTransaction(transaction),
+                  ...masterRows,
+                ]);
               }}
             />
             {rowDisplays.map((rowDisplay) => {

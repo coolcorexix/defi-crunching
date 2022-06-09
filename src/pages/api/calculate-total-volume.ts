@@ -4,6 +4,7 @@ import nc from "next-connect";
 
 const apiCalculateTotalVolumeRoute = nc({
   onError(error, req: NextApiRequest, res: NextApiResponse) {
+    console.trace(error);
     res
       .status(501)
       .json({ error: `Sorry something Happened! ${error.message}` });
