@@ -21,6 +21,7 @@ import {
   CakeSyrupPool,
   ManualCakeSyrupPool,
 } from "constants/abi/types";
+import { PLATFORMS } from "coingecko-api-v3";
 
 async function getCurrentCakeStakedInCurrentPool(
   inspectingAddress: string,
@@ -63,7 +64,7 @@ async function getCurrentCakeStakedInCurrentPool(
 async function getCakePriceAtTheTime(unixEpochtimeStamp: number) {
   return getTokenPriceAtTheTime({
     unixEpochtimeStamp,
-    platformId: "binance-smart-chain",
+    platformId: "binance-smart-chain" as PLATFORMS,
     tokenContractAddress: cakeTokenContractAddress,
   });
 }

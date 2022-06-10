@@ -34,20 +34,14 @@ const apiManualSpotTransactionRoute = nc({
       executeDate: reqBody.executeDate,
       fromAmount: reqBody.fromAmount,
       fromTicker: reqBody.fromTicker,
-      fromCoinId: getCoinIdFromTicker(reqBody.fromTicker),
+      fromCoinId: await getCoinIdFromTicker(reqBody.fromTicker),
       toAmount: reqBody.toAmount,
       toTicker: reqBody.toTicker,
-      toCoinId: getCoinIdFromTicker(reqBody.toTicker),
+      toCoinId: await getCoinIdFromTicker(reqBody.toTicker),
       priceAtTheTime: Number(reqBody.priceAtTheTime),
       side: reqBody.side,
     };
-    const coinGeckoPrices = await getCoinGeckoCurrentPrice([
-      outputSpotTx.fromCoinId,
-      outputSpotTx.toCoinId,
-    ]);
-    outputSpotTx.currentPrice =
-      coinGeckoPrices[outputSpotTx.fromCoinId].usd /
-      coinGeckoPrices[outputSpotTx.toCoinId].usd;
+
     outputSpotTx.pair = `${outputSpotTx.fromTicker}/${outputSpotTx.toTicker}`;
     res.status(200).json(outputSpotTx);
   }
