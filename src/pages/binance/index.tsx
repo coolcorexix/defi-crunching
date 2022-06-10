@@ -233,7 +233,7 @@ function BinancePage() {
           </div>
           <div>
             <div
-              className="rounded-md cursor-pointer bg-black border border-black mt-2 p-2 w-fit"
+              className="rounded-md cursor-pointer mb-4 bg-black border border-black mt-2 p-2 w-fit"
               onClick={() => {
                 processSpot();
               }}
@@ -243,6 +243,17 @@ function BinancePage() {
               </span>
             </div>
           </div>
+        </div>
+        <div>
+          <b>Step 4: </b> Spend five more minutes to help us improve this
+          application by{" "}
+          <a
+            target="_blank"
+            rel="noreferrer"
+            href="https://forms.gle/1AaMGfimJ52WmfyN7"
+          >
+            <b className="text-blue-600">joining our survey</b>
+          </a>
         </div>
       </div>
 
