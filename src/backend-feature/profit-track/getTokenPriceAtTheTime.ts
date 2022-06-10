@@ -54,6 +54,8 @@ export async function getTokenPriceAtTheTime(args: TokenPriceInput) {
     return mongodbStoredCoinPrice.priceInUsd;
   } catch (e) {
     console.log("error in get token price: ", e);
+    console.log("coin id with error: ", args.tokenContractAddress);
     console.log("timestamp with error: ", args.unixEpochtimeStamp);
+    return 0;
   }
 }

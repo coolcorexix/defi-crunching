@@ -57,6 +57,8 @@ export async function getNativeCoinPriceAtTheTime(args: NativeTokenPriceInput) {
     return mongodbStoredCoinPrice.priceInUsd;
   } catch (e) {
     console.log("error in get native coin price: ", e);
+    console.log("coinId with error: ", args.coinId);
     console.log("timestamp with error: ", args.unixEpochtimeStamp);
+    return 0;
   }
 }

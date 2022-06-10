@@ -193,35 +193,55 @@ function BinancePage() {
     <div className="m-auto p-4">
       <span className="block text-3xl font-bold mb-4">DoughWatch</span>
       <div className="mb-8">
-        <div>
+        <div
+          style={{
+            lineHeight: 1.8,
+          }}
+        >
           <b>Step 1:</b> Get your spot trading transaction history by following
           this{" "}
           <a
+            className="text-blue-600"
             href="https://www.binance.com/en-AU/support/faq/e4ff64f2533f4d23a0b3f8f17f510eab"
             target="_blank"
             rel="noreferrer"
           >
-            instruction
+            <b>instruction</b>
           </a>
+          <br />
+          <span>
+            <i>
+              Please use this app with a timerange below 3 months as we are
+              having performance limitation at this early-access version
+            </i>
+          </span>
         </div>
         <div>
           <div>
             <b>Step 2:</b> Upload your exported <code>.csv</code> file
           </div>
-          <input type="file" onChange={changeHandler} accept=".csv" />
+          <input
+            className="mt-2 mb-4"
+            type="file"
+            onChange={changeHandler}
+            accept=".csv"
+          />
         </div>
         <div>
           <div>
             <b>Step 3:</b> Press the button and wait for the result
           </div>
           <div>
-            <button
+            <div
+              className="rounded-md cursor-pointer bg-black border border-black mt-2 p-2 w-fit"
               onClick={() => {
                 processSpot();
               }}
             >
-              [Process]
-            </button>
+              <span className="text-white">
+                <b>Process</b>
+              </span>
+            </div>
           </div>
         </div>
       </div>
