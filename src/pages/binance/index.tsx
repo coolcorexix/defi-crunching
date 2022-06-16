@@ -191,7 +191,18 @@ function BinancePage() {
 
   return (
     <div className="m-auto p-4">
-      <span className="block text-3xl font-bold mb-4">DoughWatch</span>
+      <span className="block text-3xl font-bold mb-2">DoughWatch</span>
+      <span className="block mb-4">
+        Get rich, slow and steady. Made by{" "}
+        <a
+          href="https://twitter.com/phamhuyphat"
+          className="text-blue-600"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Nemo De Collector
+        </a>
+      </span>
       <div className="mb-8">
         <div
           style={{
@@ -201,8 +212,8 @@ function BinancePage() {
           <b>Step 1:</b> Get your spot trading transaction history by following
           this{" "}
           <a
-            className="text-blue-600"
             href="https://www.binance.com/en-AU/support/faq/e4ff64f2533f4d23a0b3f8f17f510eab"
+            className="text-blue-600"
             target="_blank"
             rel="noreferrer"
           >
