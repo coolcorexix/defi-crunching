@@ -179,7 +179,7 @@ function ConsumableText(props: { extractedText: string }) {
             if (decimalNotation === ".") {
               setDecimalNotation(",");
             }
-            toast.info("Decimal notation changed");
+            toast("🗣 Decimal notation changed");
           }}
         >
           <span>, / .</span>
@@ -193,7 +193,7 @@ function ConsumableText(props: { extractedText: string }) {
           className="flex items-center bg-amber-300 p-2 rounded-md"
           onClick={() => {
             setToggleRate(!toggleRate);
-            toast.info("Rate inversed");
+            toast("🔁 Rate inversed");
           }}
         >
           <Icon name="ArrowLeftAlt" width={16} height={16} />
