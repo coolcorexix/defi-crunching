@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 
-const frame1 = '◡◡ ⊙⊙ ◠◠';
+const frame1 = "◡◡ ⊙⊙ ◠◠";
 const frames = frame1.split(" ");
-export function LoadingSpinner() {
+export function LoadingSpinner(props: any) {
   const [loadingCharIndex, setLoadingCharIndex] = useState(0);
   useEffect(() => {
     setTimeout(() => {
@@ -10,7 +10,5 @@ export function LoadingSpinner() {
     }, 500);
   }, [loadingCharIndex]);
 
-  return (
-    <span>{frames[loadingCharIndex % frames.length]}</span>
-  );
+  return <span {...props}>{frames[loadingCharIndex % frames.length]}</span>;
 }

@@ -111,3 +111,12 @@ use multer and store it in memory so that we don't have to store the file
 after multer middleware, file will be attached to req.file and we can use it in our handler
 the whole thing is pretty messy and need customized typing, but it works
 ```
+
+- The + sign in CSS is used to select the next sibling of the element, not the element in it like >
+
+- The htmlFor of label can act like a ref in DOM -> it is really powerful!
+
+
+TODO:
+- Add digital notation feature to the app TONIGHT
+- Deploy nodejs 
