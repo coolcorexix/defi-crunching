@@ -8,6 +8,7 @@ import { copyToClipboard } from "utils/copyToClipboard";
 import { parseFloatButTreatCommaAsDot } from "utils/parseFloatButTreatCommaAsDot";
 import { LoadingSpinner } from "components/LoadingSpinner";
 import dynamic from "next/dynamic";
+import { toast } from "react-toastify";
 
 const Icon = dynamic(async () => (await import("reactjs-stack-icons")).Icon, {
   ssr: false,
@@ -164,8 +165,36 @@ function ConsumableText(props: { extractedText: string }) {
       <br />
       <div className="flex justify-end mt-2">
         <button
-          className="flex bg-amber-300 p-2 rounded-md"
-          onClick={() => setToggleRate(!toggleRate)}
+          style={{
+            backgroundColor: base03,
+            color: "white",
+            width: 48,
+            height: 48,
+          }}
+          className="flex items-center justify-center mr-2 p-2 rounded-md"
+          onClick={() => {
+            if (decimalNotation === ",") {
+              setDecimalNotation(".");
+            }
+            if (decimalNotation === ".") {
+              setDecimalNotation(",");
+            }
+            toast.info("Decimal notation changed");
+          }}
+        >
+          <span>, / .</span>
+        </button>
+
+        <button
+          style={{
+            width: 48,
+            height: 48,
+          }}
+          className="flex items-center bg-amber-300 p-2 rounded-md"
+          onClick={() => {
+            setToggleRate(!toggleRate);
+            toast.info("Rate inversed");
+          }}
         >
           <Icon name="ArrowLeftAlt" width={16} height={16} />
           <Icon name="ArrowRightAlt" width={16} height={16} />
