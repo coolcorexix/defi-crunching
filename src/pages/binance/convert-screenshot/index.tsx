@@ -317,7 +317,7 @@ function ConvertScreenshot() {
         },
       };
       const rs = await axios.post(
-        "http://127.0.0.1:2999/api/convert-binance-screenshot",
+        `${process.env.SERVER_URL}/api/convert-binance-screenshot`,
         data,
         config
       );
