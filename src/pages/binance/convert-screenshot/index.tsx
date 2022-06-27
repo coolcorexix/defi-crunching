@@ -9,7 +9,6 @@ import { parseFloatButTreatCommaAsDot } from "utils/parseFloatButTreatCommaAsDot
 import { LoadingSpinner } from "components/LoadingSpinner";
 import dynamic from "next/dynamic";
 import { toast } from "react-toastify";
-import { CopyIcon } from "@coolcorexix/icons";
 
 const Icon = dynamic(async () => (await import("reactjs-stack-icons")).Icon, {
   ssr: false,
@@ -306,6 +305,11 @@ function CustomizeFileUpload(props: {
 
 function ConvertScreenshot() {
   const [extractedText, setExtractedText] = useState("");
+  console.log(
+    "🚀 ~ file: index.tsx ~ line 320 ~ process.env.NEXT_PUBLIC_SERVER_URL",
+    process.env.NEXT_PUBLIC_SERVER_URL
+  );
+
   const changeHandler = useCallback(
     async (event: any) => {
       let data = new FormData();
@@ -316,8 +320,9 @@ function ConvertScreenshot() {
           "Content-Type": "multipart/form-data",
         },
       };
+
       const rs = await axios.post(
-        `${process.env.SERVER_URL}/api/convert-binance-screenshot`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/convert-binance-screenshot`,
         data,
         config
       );
