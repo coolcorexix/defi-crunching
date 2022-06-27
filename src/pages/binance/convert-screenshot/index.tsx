@@ -9,6 +9,7 @@ import { parseFloatButTreatCommaAsDot } from "utils/parseFloatButTreatCommaAsDot
 import { LoadingSpinner } from "components/LoadingSpinner";
 import dynamic from "next/dynamic";
 import { toast } from "react-toastify";
+import { CopyIcon } from "@coolcorexix/icons";
 
 const Icon = dynamic(async () => (await import("reactjs-stack-icons")).Icon, {
   ssr: false,
@@ -163,7 +164,23 @@ function ConsumableText(props: { extractedText: string }) {
       </span>
 
       <br />
+
       <div className="flex justify-end mt-2">
+        <button
+          style={{
+            width: 48,
+            height: 48,
+          }}
+          className="flex items-center mr-2 bg-amber-300 p-2 rounded-md"
+          onClick={() => {
+            setToggleRate(!toggleRate);
+            toast("🔁 Rate inversed");
+          }}
+        >
+          <Icon name="ArrowLeftAlt" width={16} height={16} />
+          <Icon name="ArrowRightAlt" width={16} height={16} />
+        </button>
+
         <button
           style={{
             backgroundColor: base03,
@@ -187,17 +204,21 @@ function ConsumableText(props: { extractedText: string }) {
 
         <button
           style={{
-            width: 48,
+            backgroundColor: cyan,
+            color: "white",
             height: 48,
           }}
-          className="flex items-center bg-amber-300 p-2 rounded-md"
+          className="flex items-center justify-center p-2 rounded-md"
           onClick={() => {
-            setToggleRate(!toggleRate);
-            toast("🔁 Rate inversed");
+            copyToClipboard(
+              `${consumableConvertFromValue} \t ${consumableConvertToValue} \t ${
+                toggleRate ? consumableRate2 : consumableRate1
+              }`
+            );
           }}
         >
-          <Icon name="ArrowLeftAlt" width={16} height={16} />
-          <Icon name="ArrowRightAlt" width={16} height={16} />
+          <Icon name="Copy" width={24} height={24} />{" "}
+          <span className="block ml-2 text-black">A</span>
         </button>
       </div>
     </MobileLikeContainer>
