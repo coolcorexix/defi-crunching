@@ -1,4 +1,4 @@
-import Image from "next/Image";
+import Image from "next/image";
 import { base03, base2, cyan, green } from "theme/colors";
 import axios from "axios";
 
