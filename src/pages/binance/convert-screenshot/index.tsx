@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { base03, base2, cyan, green } from "theme/colors";
+import { base03, base2, cyan, green, yellow } from "theme/colors";
 import axios from "axios";
 
 import React, { useCallback, useMemo, useState } from "react";
@@ -116,9 +116,9 @@ function ConsumableText(props: { extractedText: string }) {
 
   return (
     <MobileLikeContainer className="p-4">
-      <h1 className="text-3xl text-center mb-10 font-bold ">CONVERT</h1>
+      <h1 className="text-3xl text-center mb-8 font-bold ">CONVERT</h1>
       <div
-        className="text-5xl m-auto mb-16 w-min"
+        className="text-5xl m-auto mb-8 w-min"
         style={{
           color: cyan,
         }}
@@ -164,67 +164,86 @@ function ConsumableText(props: { extractedText: string }) {
 
       <br />
 
-      <div className="flex justify-end mt-2">
-        <button
-          style={{
-            width: 48,
-            height: 48,
-          }}
-          className="flex items-center mr-2 bg-amber-300 p-2 rounded-md"
-          onClick={() => {
-            setToggleRate(!toggleRate);
-            toast("🔁 Rate inversed");
-          }}
+      <div className="block mt-2">
+        <div className="flex flex-row items-center mb-2 justify-between">
+          <span>Toggle rate:</span>
+          <button
+            style={{
+              width: 48,
+              height: 48,
+            }}
+            className="flex items-center mr-2 bg-amber-300 p-2 rounded-md"
+            onClick={() => {
+              setToggleRate(!toggleRate);
+              // toast("🔁 Rate inversed");
+            }}
+          >
+            <Icon name="ArrowLeftAlt" width={16} height={16} />
+            <Icon name="ArrowRightAlt" width={16} height={16} />
+          </button>
+        </div>
+        <div className="flex flex-row items-center mb-2 justify-between">
+          <span>Change decimal notation:</span>
+          <button
+            style={{
+              backgroundColor: base03,
+              color: "white",
+              width: 48,
+              height: 48,
+            }}
+            className="flex items-center justify-center mr-2 p-2 rounded-md"
+            onClick={() => {
+              if (decimalNotation === ",") {
+                setDecimalNotation(".");
+              }
+              if (decimalNotation === ".") {
+                setDecimalNotation(",");
+              }
+              // toast("🗣 Decimal notation changed");
+            }}
+          >
+            <span>, / .</span>
+          </button>
+        </div>
+        <div className="flex flex-row items-center mb-2 justify-between">
+          <span>Copy all into 3 cells:</span>
+          <button
+            style={{
+              backgroundColor: cyan,
+              color: "white",
+              width: 48,
+              height: 48,
+            }}
+            className="flex items-center justify-center mr-2 p-2 rounded-md"
+            onClick={() => {
+              copyToClipboard(
+                `${consumableConvertFromValue} \t ${consumableConvertToValue} \t ${
+                  toggleRate ? consumableRate2 : consumableRate1
+                }`
+              );
+            }}
+          >
+            <Icon name="Copy" width={24} height={24} />
+          </button>
+        </div>
+      </div>
+      <div
+        style={{ backgroundColor: base2, borderColor: base03 }}
+        className="rounded-md mt-4 py-2 w-100 border-2 border-solid"
+      >
+        <span
+          className="m-auto block w-min whitespace-nowrap"
+          style={{ color: base03 }}
         >
-          <Icon name="ArrowLeftAlt" width={16} height={16} />
-          <Icon name="ArrowRightAlt" width={16} height={16} />
-        </button>
-
-        <button
-          style={{
-            backgroundColor: base03,
-            color: "white",
-            width: 48,
-            height: 48,
-          }}
-          className="flex items-center justify-center mr-2 p-2 rounded-md"
-          onClick={() => {
-            if (decimalNotation === ",") {
-              setDecimalNotation(".");
-            }
-            if (decimalNotation === ".") {
-              setDecimalNotation(",");
-            }
-            toast("🗣 Decimal notation changed");
-          }}
-        >
-          <span>, / .</span>
-        </button>
-
-        <button
-          style={{
-            backgroundColor: cyan,
-            color: "white",
-            height: 48,
-          }}
-          className="flex items-center justify-center p-2 rounded-md"
-          onClick={() => {
-            copyToClipboard(
-              `${consumableConvertFromValue} \t ${consumableConvertToValue} \t ${
-                toggleRate ? consumableRate2 : consumableRate1
-              }`
-            );
-          }}
-        >
-          <Icon name="Copy" width={24} height={24} />{" "}
-          <span className="block ml-2 text-black">A</span>
-        </button>
+          Try another screenshot
+        </span>
       </div>
     </MobileLikeContainer>
   );
 }
 
 const MobileLikeCss = css`
+  position: relative;
   width: 100%;
   max-width: 390px;
   height: 100vh;
@@ -293,9 +312,20 @@ function CustomizeFileUpload(props: {
               alt="uni-logo"
               src={require("assets/binance-convert.svg")}
             />
-            <span className="block mt-4 text-center">
-              Upload your converted screenshot
+            <span className="block mt-4 mb-4 text-center">
+              Tap to upload your <br /> convert screenshot, <br /> like this
             </span>{" "}
+            <div
+              style={{ borderRadius: "5px", height: 284, overflow: "hidden" }}
+            >
+              <Image
+                objectFit="contain"
+                width={160}
+                height={284}
+                alt="demo"
+                src={require("./demo.jpg")}
+              />
+            </div>
           </>
         )}
       </label>
@@ -340,6 +370,17 @@ function ConvertScreenshot() {
           <CustomizeFileUpload changeHandler={changeHandler} />
         )}
       </div>
+      <span className="block ml-2 mt-4">
+        A gift from{" "}
+        <a
+          className="text-blue-500"
+          href="https://twitter.com/phamhuyphat"
+          rel="noreferrer"
+          target="_blank"
+        >
+          Nemo The Collector
+        </a>
+      </span>
     </div>
   );
 }

@@ -16,7 +16,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Component {...pageProps} />
       <ToastContainer
         {...{
-          position: "bottom-center",
+          position: "top-center",
           autoClose: 420,
           hideProgressBar: true,
           closeOnClick: true,
