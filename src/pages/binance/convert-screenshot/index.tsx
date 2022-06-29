@@ -127,14 +127,18 @@ function ConsumableText(props: { extractedText: string }) {
       </div>
 
       <div className="flex">
-        <div className="mr-2">From</div>
+        <div className="mr-2" style={{ width: 46.92 }}>
+          From
+        </div>
         <CopyableText textValue={`${consumableConvertFromValue}`} />
         {convertFromSymbol}
         <br />
       </div>
       <br />
       <span className="flex">
-        <div className="mr-2">To</div>
+        <div className="mr-2" style={{ width: 46.92 }}>
+          To
+        </div>
         <CopyableText textValue={`${consumableConvertToValue}`} />
 
         {convertTo.symbol}
@@ -247,7 +251,7 @@ const MobileLikeCss = css`
   position: relative;
   width: 100%;
   max-width: 390px;
-  height: 100vh;
+  min-height: 100vh;
   border-radius: 8px;
   border: 2px dashed ${base03};
   font-size: 21px;
@@ -375,7 +379,7 @@ function ConvertScreenshot() {
           <CustomizeFileUpload changeHandler={changeHandler} />
         )}
       </div>
-      <span className="block ml-2 mt-4">
+      <span className="block text-center mt-4">
         A gift from{" "}
         <a
           className="text-blue-500"
