@@ -232,6 +232,7 @@ function ConsumableText(props: { extractedText: string }) {
         className="rounded-md mt-4 py-2 w-100 border-2 border-solid"
       >
         <span
+          onClick={() => window.location.reload()}
           className="m-auto block w-min whitespace-nowrap"
           style={{ color: base03 }}
         >
@@ -303,7 +304,12 @@ function CustomizeFileUpload(props: {
         className="flex flex-col items-center justify-center"
         htmlFor="file"
       >
-        {isLoading && <LoadingSpinner className="text-3xl w-min" />}
+        {isLoading && (
+          <>
+            <LoadingSpinner className="text-3xl w-min" />
+            <div className="mt-3">it might take up to one minute...</div>
+          </>
+        )}
         {!isLoading && (
           <>
             <Image
