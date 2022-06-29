@@ -248,7 +248,6 @@ const MobileLikeCss = css`
   width: 100%;
   max-width: 390px;
   height: 100vh;
-  max-height: 770px;
   border-radius: 8px;
   border: 2px dashed ${base03};
   font-size: 21px;
